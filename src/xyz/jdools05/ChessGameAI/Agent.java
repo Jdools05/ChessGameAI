@@ -14,6 +14,7 @@ public class Agent {
     int turnCount = 0;
     int bestScore = 0;
     boolean dead = false;
+    boolean won = false;
     int score = 0;
     int gen = 0;
 
@@ -59,6 +60,12 @@ public class Agent {
     }
 
     public void move() {
+        if (dead) return;
+        if (game.isGameOver()) {
+            dead = true;
+            return;
+        }
+
         // get the output of the neural network
         // find the highest value output and translate the index to a tile on the board
         // this will be the starting tile
@@ -111,6 +118,7 @@ public class Agent {
                 }
                 if ( i == MAX_ATTEMPTS - 1) {
                     dead = true;
+                    game.setGameOver(true);
                 }
             }
         }
@@ -120,7 +128,7 @@ public class Agent {
         // calculate the fitness
         // if the agent is dead, fitness is negative turn count
         // if the agent is alive, fitness is inverse of turn count
-        if (dead) {
+        if (!won) {
             fitness = -turnCount;
         } else {
             fitness = 500 / (double) turnCount;
