@@ -69,7 +69,7 @@ public class Population {
 
     // assigns game id to each agent
     public void assignIds() {
-        for (int i = 0; i < agents.size(); i += 2) {
+        for (int i = 0; i < agents.size() / 2; i ++) {
             agents.get(i).game = i;
             agents.get(i + 1).game = i;
             agents.get(i+1).isWhite = false;
@@ -150,9 +150,12 @@ public class Population {
     }
 
     public void killStaleSpecies() {
+        int maxKill = (int) Math.floor(species.size() * 0.1);
+        int counter = 0;
         for (int i = 0; i < species.size(); i++) {
-            if (species.get(i).staleness >= 15) {
+            if (species.get(i).staleness >= 15 && counter < maxKill) {
                 species.remove(i);
+                counter++;
                 i--;
             }
         }

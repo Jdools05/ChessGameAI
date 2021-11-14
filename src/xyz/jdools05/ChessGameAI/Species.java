@@ -118,7 +118,7 @@ public class Species {
     }
 
     public void cull() {
-        if (agents.size() > agents.size() / 2) {
+        if (agents.size() > Math.ceil(agents.size() / 2.0)) {
             agents.subList(agents.size() / 2, agents.size()).clear();
         }
     }
