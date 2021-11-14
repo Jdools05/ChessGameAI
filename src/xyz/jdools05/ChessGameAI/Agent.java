@@ -24,23 +24,23 @@ public class Agent {
     int genomeInputs = 64;
     int genomeOutputs = 64;
 
-    boolean isWhite = false;
-    Game game;
+    boolean isWhite = true;
+    int game;
 
     // Constructor
     public Agent() {
         brain = new Genome(genomeInputs, genomeOutputs);
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGame(int id) {
+        this.game = id;
     }
 
     public void setIsWhite(boolean isWhite) {
         this.isWhite = isWhite;
     }
 
-    public void look() {
+    public Game look(Game game) {
         // get the input of the neural network
         // translate the pieces into a 64-element array
         // set the input of the neural network to the array
@@ -53,17 +53,18 @@ public class Agent {
                 }
             }
         }
+        return game;
     }
 
     public void think() {
         decision = brain.feedForward(vision);
     }
 
-    public void move() {
-        if (dead) return;
+    public Game move(Game game) {
+        if (dead) return game;
         if (game.isGameOver()) {
             dead = true;
-            return;
+            return game;
         }
 
         // get the output of the neural network
@@ -122,6 +123,7 @@ public class Agent {
                 }
             }
         }
+        return game;
     }
 
     public void calculateFitness() {

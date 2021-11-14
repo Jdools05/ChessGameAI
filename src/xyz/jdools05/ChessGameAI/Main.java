@@ -19,7 +19,7 @@ public class Main {
                 population.updateAlive();
             }
                 // utilize the genetic algorithm to create a new population
-                population.naturalSelection();
+            population.naturalSelection();
         }
     }
 
