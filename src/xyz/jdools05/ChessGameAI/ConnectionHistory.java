@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionHistory {
+    // stores the input node's id
     public int fromNode;
+    // stores the output node's id
     public int toNode;
+    // store the innovation number 
     public int innovationNumber;
+    // stores all the innovation numbers used to seach history
     public List<Integer> innovationNumbers = new ArrayList<>();
 
+    // constructor
     public ConnectionHistory(int fromNode, int toNode, int innovationNumber, List<Integer> innovationNumbers) {
         this.fromNode = fromNode;
         this.toNode = toNode;
@@ -16,6 +21,7 @@ public class ConnectionHistory {
         this.innovationNumbers = innovationNumbers;
     }
 
+    // returns if a two Genomes are matching
     public boolean matches(Genome genome, Node from, Node to) {
         // if the number of connections are different, it's not a match
         if (genome.genes.size() == innovationNumbers.size()) {
