@@ -13,7 +13,7 @@ public class Population {
     private List<Game> games = new ArrayList<>();
     private Agent bestAgent;
     // best score of the best ever agent
-    private double bestScore;
+    private double bestScore = Double.NEGATIVE_INFINITY;
     int generation;
     // list of the connection history
     private List<ConnectionHistory> innovationHistory = new ArrayList<>();
@@ -33,6 +33,15 @@ public class Population {
         // initialize the games
         for (int i = 0; i < size / 2; i++) {
             games.add(new Game());
+        }
+    }
+
+    public void forceEnd() {
+        for (Agent agent : agents) {
+            if (!agent.dead) {
+                agent.won = false;
+            }
+            agent.dead = true;
         }
     }
 
@@ -59,9 +68,9 @@ public class Population {
         Agent best = species.get(0).agents.get(0);
         best.gen = generation;
 
-        if (best.score > bestScore) {
+        if (best.fitness > bestScore) {
             genAgents.add(best);
-            bestScore = best.score;
+            bestScore = best.fitness;
             bestAgent = best;
         }
         Logger.getGlobal().info("Generation: " + generation + " Best score: " + bestScore);
@@ -111,8 +120,9 @@ public class Population {
         }
 
         assignIds();
-        for (int i = 0; i < games.size(); i++) {
-            games.set(i, new Game());
+        games = new ArrayList<>();
+        for (int i = 0; i < agents.size() / 2; i++) {
+            games.add(new Game());
         }
     }
 
@@ -162,10 +172,13 @@ public class Population {
     }
 
     public void killBadSpecies() {
+        int maxKill = (int) Math.floor(species.size() * 0.1);
+        int counter = 0;
         double averageSum = getAvgFitnessSum();
         for (int i = 0; i < species.size(); i++) {
-            if (species.get(i).averageFitness / averageSum * agents.size() < 1) {
+            if (species.get(i).averageFitness / averageSum * agents.size() < 1 && counter < maxKill) {
                 species.remove(i);
+                counter++;
                 i--;
             }
         }

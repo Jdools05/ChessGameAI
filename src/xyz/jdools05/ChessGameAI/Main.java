@@ -1,5 +1,7 @@
 package xyz.jdools05.ChessGameAI;
 
+import java.util.logging.Logger;
+
 // entrance point of the NEAT implementation for the chess game
 public class Main {
 
@@ -12,11 +14,17 @@ public class Main {
         Population population = new Population(100);
 
         // iterate a number of times
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             // if the population is not finished
+            int turnCount = 0;
             while (!population.isFinished()) {
+                turnCount++;
                 // update the population
                 population.updateAlive();
+                if (turnCount > 500) {
+                    // force the population to end
+                    population.forceEnd();
+                }
             }
                 // utilize the genetic algorithm to create a new population
             population.naturalSelection();

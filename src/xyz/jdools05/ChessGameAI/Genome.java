@@ -205,6 +205,13 @@ public class Genome {
     // returns whether the network is fully connected
     public boolean fullyConnected() {
         int maxConnections = 0;
+        // set layers to match the highest layer in the nodes
+        for (Node node : nodes) {
+            if (node.layer > layers-1) {
+                layers = node.layer+1;
+            }
+        }
+
         int[] nodesInLayers = new int[layers];
 
         for (Node node : nodes) {

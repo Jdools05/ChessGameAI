@@ -3,6 +3,7 @@ package xyz.jdools05.ChessGameAI;
 import xyz.jdools05.chess.Game;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class Agent {
     public double fitness;
@@ -12,10 +13,9 @@ public class Agent {
     // output of the neural network
     public double[] decision = new double[64];
     int turnCount = 0;
-    int bestScore = 0;
     boolean dead = false;
     boolean won = false;
-    int score = 0;
+    double score = 0;
     int gen = 0;
 
     // max number of attempts the agent can make to find a valid move
@@ -108,7 +108,6 @@ public class Agent {
             for (int i = 0; i < MAX_ATTEMPTS; i++) {
                 try {
                     game.makeMove(sb.toString());
-                    turnCount++;
                 } catch (Exception e) {
                     // make random move
                     sb.append((char) (random.nextInt(7) + 'a'));
@@ -122,6 +121,7 @@ public class Agent {
                     game.setGameOver(true);
                 }
             }
+            turnCount++;
         }
         return game;
     }
@@ -135,6 +135,7 @@ public class Agent {
         } else {
             fitness = 500 / (double) turnCount;
         }
+        score = fitness;
     }
 
     public Agent crossover(Agent partner) {

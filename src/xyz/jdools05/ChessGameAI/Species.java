@@ -13,7 +13,7 @@ public class Species {
 
     public double excessCoefficient = 1;
     public double weightDiffCoefficient = 0.5;
-    public double compatibilityThreshold = 3;
+    public double compatibilityThreshold = 55;
 
     Species(){}
 
